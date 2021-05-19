@@ -18,7 +18,8 @@ public class PointLight extends Light implements LightSource{
 	{
 		super(l);
 		position = p;
-		kC = kL = kQ = 0;
+		kL = kQ = 0;
+		kC = 1;
 	}
 	
 	//seters
