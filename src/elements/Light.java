@@ -1,8 +1,6 @@
 package elements;
 import static org.junit.Assert.*;
 
-
-
 //import java.awt.Color;
 
 import renderer.*;

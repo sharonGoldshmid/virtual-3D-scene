@@ -1,8 +1,6 @@
 package elements;
 import static org.junit.Assert.*;
-
-
-import java.awt.Color;
+//import java.awt.Color;
 
 import renderer.*;
 import org.junit.Test;
@@ -14,7 +12,7 @@ public class PointLight extends Light implements LightSource{
 	private double kC, kL, kQ;
 	
 	//constructor
-	public PointLight(primitives.Color l,Point3D p)
+	public PointLight(Color l,Point3D p)
 	{
 		super(l);
 		position = p;
@@ -41,7 +39,7 @@ public class PointLight extends Light implements LightSource{
 	
 
 	//The function calculate the color
-    public primitives.Color getIntensity(Point3D p)
+    public Color getIntensity(Point3D p)
     {
     	double d = p.distance(position);
         return (intensity.reduce(kC + kL * d + kQ * d * d));
@@ -53,5 +51,9 @@ public class PointLight extends Light implements LightSource{
 	     return p.subtract(position).normalize();
 	}
 
+	//return the distance from the light to a point
+	public double getDistance(Point3D point) {
+		return point.distance(position);
+	}
 }
 

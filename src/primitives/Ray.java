@@ -58,19 +58,13 @@ public class Ray {
 	//return the geopoint with the min distance from p0
 	public GeoPoint findClosestGeoPoint(List<GeoPoint> listp)
 	{
-		if(listp.isEmpty()) return null;
+		if(listp==null || listp.isEmpty()) return null;
 		
 		GeoPoint geomin = listp.get(0);
 		double min = geomin.point.distance(p0);
-		for (int i = 1; i < listp.size(); ++i) {
-			Point3D newp = listp.get(i).point;
-			double newdis = newp.distance(p0);
-			if(min > newdis)
-			{
-				min = newdis;
-				geomin.point = newp;
-			}
-		}
+		for (int i = 1; i < listp.size(); ++i)
+			if(listp.get(i).point.distance(p0) < geomin.point.distance(p0))
+				geomin = listp.get(i);
 		return geomin;
 	}
 }
