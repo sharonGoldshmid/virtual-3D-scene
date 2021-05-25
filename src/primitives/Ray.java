@@ -15,7 +15,6 @@ public class Ray {
 		dir = v.normalize();
 	}
 	
-	
 	public boolean equals(Object ob)
 	{
 		Ray temp = (Ray)ob;
