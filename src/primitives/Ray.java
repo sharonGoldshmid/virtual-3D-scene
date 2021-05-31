@@ -15,6 +15,17 @@ public class Ray {
 		dir = v.normalize();
 	}
 	
+	private static final double DELTA = 0.1;
+	
+	public Ray(Point3D p, Vector v, Vector n) {
+		//Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : - DELTA);
+		//Ray lightRay = new Ray(gp.point.add(delta), lightDirection);
+		dir = v.normalize();
+		Vector delta = n.scale(n.dotProduct(v) > 0 ? DELTA : - DELTA);
+		p0 = p.add(delta);
+	}
+	
+	
 	public boolean equals(Object ob)
 	{
 		Ray temp = (Ray)ob;

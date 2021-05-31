@@ -3,7 +3,8 @@ package primitives;
 public class Material {
 
 	public int nShininess = 0;
-	public double kD,kS,kT,kR = 0;
+	public double kD,kS,kR = 0;
+	public double kT = 0;
 	
 	//seters
 	public Material setKD(double num)
