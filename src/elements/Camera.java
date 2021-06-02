@@ -61,6 +61,30 @@ public class Camera {
 	
 	
 	/*
+	 * help function for find center of pixel
+	 */
+	private Point3D getCenterOfPixel(Point3D p,double Rx,double Ry, int i,int j,int nX,int nY) {
+		
+		double tempY = ((i - nY / 2.0) * Ry + Ry/2.0);
+		double tempX = ((j - nX / 2.0) * Rx + Rx/2.0);
+				
+		if(!Util.isZero(tempX))
+		{
+			    Vector Vx = vRight.scale(tempX);
+			    p = p.add(Vx);
+		}
+		if(!Util.isZero(tempY))
+		{
+			   Vector Vy = vUp.scale(-tempY);
+			   p = p.add(Vy);
+		}
+		
+		return p;
+	}
+	
+	
+	
+	/*
 	 * help for return the center:
 	 * the func calculate the center of pixel and return it as Point3D
 	 */
@@ -73,24 +97,36 @@ public class Camera {
 		//height of pixel
 		double Ry = height / nY;
 		
-		double tempY = ((i - nY / 2.0) * Ry + Ry/2.0);
-		double tempX = ((j - nX / 2.0) * Rx + Rx/2.0);
-		
-		Point3D p = Pc;
-		if(!Util.isZero(tempX))
-		{
-	    	 Vector Vx = vRight.scale(tempX);
-	    	 p = p.add(Vx);
-	    	 
-	    	 
-	    }
-		if(!Util.isZero(tempY))
-		{
-	    	Vector Vy = vUp.scale(-tempY);
-	    	p = p.add(Vy);
-		}
-		return p;
+		return getCenterOfPixel(Pc,Rx,Ry,i,j,nX,nY);
 	}
+	
+	
+	/*
+	 * for mini project 1 - create ray throw the pixel in place ij
+	 */
+	public Ray ConstructRayThroughPixelGrid(int nX, int nY, int x, int y, int j, int i, int numbergrid) {
+		
+		//next lines for calculate point to ray :
+		
+		Point3D Pc = getCenterOfPixel(nX, nY, x, y); //center of pixel = new pc
+	
+		//****************************************************************
+		
+		//width of pixel
+		double Rx = width / nX / numbergrid;
+		//height of pixel
+		double Ry = height / nY / numbergrid;
 
-
+		//p is a point on the grid of the pixel 
+		Point3D p = getCenterOfPixel(Pc,Rx,Ry,i,j,nX,nY);
+		
+		//make ray from p0 to the center			    
+		return new Ray(p0,p.subtract(p0));
+		
+		//****************************************************************
+		
+//		//for debug:
+//		return ConstructRayThroughPixel(nX,nY,j,i);
+	}
+	
 }
