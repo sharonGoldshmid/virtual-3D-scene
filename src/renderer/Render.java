@@ -2,8 +2,8 @@ package renderer;
 
 import java.util.LinkedList;
 
-import java.util.List;
 
+import java.util.List;
 import elements.*;
 import geometries.Intersectable;
 import primitives.Color;
@@ -17,6 +17,7 @@ public class Render {
 	Camera camera;
 	ImageWriter imageWriter;
 	RayTracerBasic rayTracer;
+	
 	
 	//seters
 	//public Scene setScene(Scene s) { return scene = s; }
@@ -36,12 +37,23 @@ public class Render {
 		return this;
 	}
 
+	
+	
+	//nun of rays to send for improvement
+	int numbergrid = 0;
+	public void setImpovement(int n)
+	{
+		numbergrid = n;
+	}
+	
 	/*
 	 * check if all the fields is set
 	 * and paint the picture (geometries and background)
 	 */
+	
+	
 	public void renderImage()
-	{
+	{	 
 		if(camera==null || imageWriter==null || rayTracer==null)
 			throw new IllegalArgumentException("a field isnt set");
 		
@@ -51,18 +63,23 @@ public class Render {
 		for(int i = 0; i < nY; i++) //all rows
 		{	
 			for(int j= 0;j < nX; j++) //all columns
-			{     
-//				//find color of pixel
-//				Ray ray = camera.ConstructRayThroughPixel(nX, nY, j, i);
-//				//RayTracerBasic rayTracer =  RayTracerBasic(scene);
-//                imageWriter.writePixel(j, i, rayTracer.traceRay(ray));
+			{    
+//				if(i==130 && j==130)
+//					System.out.println("jj");
 				
-				
-				//paint pixel
-				imageWriter.writePixel(j, i, gridPixel(nX,nY,j,i));
+				if(numbergrid <= 0) {
+					//find color of pixel
+					Ray ray = camera.ConstructRayThroughPixel(nX, nY, j, i);
+					//RayTracerBasic rayTracer =  RayTracerBasic(scene);
+	                imageWriter.writePixel(j, i, rayTracer.traceRay(ray));
+				}
+				else 
+	            	//paint pixel
+	            	imageWriter.writePixel(j, i, gridPixel(nX,nY,j,i));
 			}
 		}
 	}
+	
 	
 
 	/*
@@ -70,7 +87,6 @@ public class Render {
 	 */
 	private Color gridPixel(int nX,int nY,int x,int y) {
 		Color sumColors = Color.BLACK;
-		int numbergrid = 5;
 		List<Ray> rays = new LinkedList<Ray>();
 		
 		for(int i = 0; i< numbergrid; i++) //all rows

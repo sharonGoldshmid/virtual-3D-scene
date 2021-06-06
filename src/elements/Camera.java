@@ -50,13 +50,11 @@ public class Camera {
 	//make a ray to the center of the pixel we get 
 	public Ray ConstructRayThroughPixel(int nX, int nY, int j, int i)
 	{
-		//calculate the center point
+		//calculate the center view
 		Point3D p = getCenterOfPixel(nX, nY, j, i);
 		
 		//make ray from p0 to the center
-	    Vector v = p.subtract(p0);
-	    
-		return new Ray(p0,v);
+		return new Ray(p0,p.subtract(p0));
 	}
 	
 	
@@ -81,7 +79,6 @@ public class Camera {
 		
 		return p;
 	}
-	
 	
 	
 	/*
@@ -110,6 +107,9 @@ public class Camera {
 		
 		Point3D Pc = getCenterOfPixel(nX, nY, x, y); //center of pixel = new pc
 	
+//		//for debug:
+//		return new Ray(p0,Pc.subtract(p0));
+		
 		//****************************************************************
 		
 		//width of pixel
@@ -118,7 +118,7 @@ public class Camera {
 		double Ry = height / nY / numbergrid;
 
 		//p is a point on the grid of the pixel 
-		Point3D p = getCenterOfPixel(Pc,Rx,Ry,i,j,nX,nY);
+		Point3D p = getCenterOfPixel(Pc,Rx,Ry,i,j,numbergrid,numbergrid);
 		
 		//make ray from p0 to the center			    
 		return new Ray(p0,p.subtract(p0));
@@ -126,7 +126,7 @@ public class Camera {
 		//****************************************************************
 		
 //		//for debug:
-//		return ConstructRayThroughPixel(nX,nY,j,i);
+//		return ConstructRayThroughPixel(nX,nY,x,y);
 	}
 	
 }

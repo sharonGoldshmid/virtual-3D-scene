@@ -17,6 +17,7 @@ import primitives.Vector;
 import renderer.ImageWriter;
 import renderer.RayTracerBasic;
 import renderer.Render;
+import renderer.Render2;
 import scene.Scene;
 
 public class colorGridPixelTests {
@@ -45,6 +46,8 @@ public class colorGridPixelTests {
 				setImageWriter(new ImageWriter("gridPixelSphereTriangleInitial", 400, 400)) //
 				.setCamera(camera) //
 				.setRayTracer(new RayTracerBasic(scene));
+		
+		render.setImpovement(9);
 		render.renderImage();
 		render.writeToImage();
 	}
@@ -78,6 +81,8 @@ public class colorGridPixelTests {
 				.setImageWriter(new ImageWriter("gridPixel final test", 600, 600)) //
 				.setCamera(camera) //
 				.setRayTracer(new RayTracerBasic(scene));
+		
+		render.setImpovement(9);
 		render.renderImage();
 		render.writeToImage();
 	}
