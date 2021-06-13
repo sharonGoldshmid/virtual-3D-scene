@@ -1,6 +1,10 @@
 package elements;
 
 import primitives.*;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import geometries.*;
 
 public class Camera {
@@ -67,15 +71,10 @@ public class Camera {
 		double tempX = ((j - nX / 2.0) * Rx + Rx/2.0);
 				
 		if(!Util.isZero(tempX))
-		{
-			    Vector Vx = vRight.scale(tempX);
-			    p = p.add(Vx);
-		}
+			   p = p.add(vRight.scale(tempX));
+		
 		if(!Util.isZero(tempY))
-		{
-			   Vector Vy = vUp.scale(-tempY);
-			   p = p.add(Vy);
-		}
+			   p = p.add(vUp.scale(-tempY));
 		
 		return p;
 	}
@@ -109,9 +108,7 @@ public class Camera {
 	
 //		//for debug:
 //		return new Ray(p0,Pc.subtract(p0));
-		
-		//****************************************************************
-		
+
 		//width of pixel
 		double Rx = width / nX / numbergrid;
 		//height of pixel
@@ -122,11 +119,54 @@ public class Camera {
 		
 		//make ray from p0 to the center			    
 		return new Ray(p0,p.subtract(p0));
-		
-		//****************************************************************
-		
+
 //		//for debug:
 //		return ConstructRayThroughPixel(nX,nY,x,y);
 	}
 	
+	
+	
+	//all next are for mini_project_2:
+	
+	public double getRx(int nX) { return width / nX; }
+	public double getRy(int nY) { return width / nY; }
+	
+	/**
+	 * calculate the colors of 4 corners of pixel
+	 */
+	public List<Ray> colors4Corners(int nX, int nY, int col, int row) {
+		List<Point3D> points = new LinkedList<>();
+		List<Ray> rays = new LinkedList<>();
+		
+		Point3D pc = getCenterOfPixel(nX, nY, col, row); //center of pixel = new pc
+		//width of pixel
+		double Rx = width / nX;
+		//height of pixel
+		double Ry = height / nY;
+		
+		points.add(pc.add(vRight.scale(-Rx/2)).add(vUp.scale(Ry/2)));
+		points.add(pc.add(vRight.scale(Rx/2)).add(vUp.scale(Ry/2)));
+		points.add(pc.add(vRight.scale(-Rx/2)).add(vUp.scale(-Ry/2)));
+		points.add(pc.add(vRight.scale(Rx/2)).add(vUp.scale(-Ry/2)));
+
+		for(var p : points) rays.add(new Ray(p0, p.subtract(p0)));
+		return rays;
+	}
+	
+	/**
+	 * calculate the colors of 5 centers on pixel
+	 */
+	public List<Ray> colors5Centers(Point3D pc, double Rx, double Ry) {
+		List<Point3D> points = new LinkedList<>();
+		List<Ray> rays = new LinkedList<>();
+		
+		points.add(pc.add(vUp.scale(Ry/2)));
+		points.add(pc.add(vRight.scale(-Rx/2)));
+		points.add(pc);
+		points.add(pc.add(vRight.scale(Rx/2)));
+		points.add(pc.add(vUp.scale(-Ry/2)));
+
+		for(var p : points) rays.add(new Ray(p0, p.subtract(p0)));
+		return rays;
+	}
 }

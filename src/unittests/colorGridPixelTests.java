@@ -82,7 +82,7 @@ public class colorGridPixelTests {
 				.setCamera(camera) //
 				.setRayTracer(new RayTracerBasic(scene));
 		
-		render.setImpovement(9);
+		render.setImpovement(3);
 		render.renderImage();
 		render.writeToImage();
 	}

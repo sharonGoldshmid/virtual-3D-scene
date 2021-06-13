@@ -67,7 +67,7 @@ public class Render {
 //				if(i==130 && j==130)
 //					System.out.println("jj");
 				
-				if(numbergrid <= 0) {
+				if(numbergrid <= 1) {
 					//find color of pixel
 					Ray ray = camera.ConstructRayThroughPixel(nX, nY, j, i);
 					//RayTracerBasic rayTracer =  RayTracerBasic(scene);

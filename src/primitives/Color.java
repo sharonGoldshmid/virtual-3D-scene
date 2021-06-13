@@ -122,4 +122,13 @@ public class Color {
 		return new Color(r / k, g / k, b / k);
 	}
 
+	
+	public boolean equals(Object ob) {
+		if (this == ob) return true;
+		if (ob == null) return false;
+		if (!(ob instanceof Color)) return false;
+		Color temp = (Color)ob;
+		return Util.isZero(r-temp.r) && Util.isZero(g-temp.g) && Util.isZero(b-temp.b);
+		
+	}
 }
