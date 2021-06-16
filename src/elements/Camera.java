@@ -18,7 +18,8 @@ public class Camera {
 	//constructor
 	public Camera(Point3D p, Vector vt, Vector vp) {
 		p0 = p;
-		if(!Util.isZero(vp.dotProduct(vt)))//if they are not orthogonal
+		double temp = vp.dotProduct(vt);
+		if(!Util.isZero(temp))//if they are not orthogonal
 			throw new IllegalArgumentException("The vectors are not orthogonal");
 		vUp = vp.normalize();
 		vTo = vt.normalize();
@@ -65,7 +66,7 @@ public class Camera {
 	/*
 	 * help function for find center of pixel
 	 */
-	private Point3D getCenterOfPixel(Point3D p,double Rx,double Ry, int i,int j,int nX,int nY) {
+	public Point3D getCenterOfPixel(Point3D p,double Rx,double Ry, int i,int j,int nX,int nY) {
 		
 		double tempY = ((i - nY / 2.0) * Ry + Ry/2.0);
 		double tempX = ((j - nX / 2.0) * Rx + Rx/2.0);

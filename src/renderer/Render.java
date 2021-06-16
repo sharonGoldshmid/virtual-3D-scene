@@ -77,6 +77,7 @@ public class Render {
 	            	//paint pixel
 	            	imageWriter.writePixel(j, i, gridPixel(nX,nY,j,i));
 			}
+			System.out.println(i);
 		}
 	}
 	

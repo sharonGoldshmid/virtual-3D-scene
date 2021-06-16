@@ -1562,8 +1562,8 @@ public class TeapotTest {
 		render.setCamera(camera); //
 		render.setImageWriter(imageWriter); //
 		render.setRayTracer(new RayTracerBasic(scene)); //
-		render.setImpovement(10); //
-		//render.setMultithreading(3);
+		//render.setImpovement(3); //
+		render.setMultithreading(3);
 		
 		render.setDebugPrint();
 		render.renderImage();

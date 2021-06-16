@@ -265,19 +265,19 @@ public class Render2 {
 		
 		//recursive calls:
 		sumColors = sumColors.add(castRayRecursive(Rx/2,Ry/2,level-1,
-				pc.add(camera.getVRight().scale(-Rx/4).add(camera.getVUp().scale(Ry/4))),
+				camera.getCenterOfPixel(pc,Rx/2,Ry/2,0,0,2,2),
 				List.of(corners.get(0),centers.get(0),centers.get(1),centers.get(2))));
 		
 		sumColors = sumColors.add(castRayRecursive(Rx/2,Ry/2,level-1,
-				pc.add(camera.getVRight().scale(Rx/4).add(camera.getVUp().scale(Ry/4))),
+				camera.getCenterOfPixel(pc,Rx/2,Ry/2,0,1,2,2),
 				List.of(centers.get(0),corners.get(1),centers.get(2),centers.get(3))));
 		
 		sumColors = sumColors.add(castRayRecursive(Rx/2,Ry/2,level-1,
-				pc.add(camera.getVRight().scale(-Rx/4).add(camera.getVUp().scale(-Ry/4))),
+				camera.getCenterOfPixel(pc,Rx/2,Ry/2,1,0,2,2),
 				List.of(centers.get(1),centers.get(2),corners.get(2),centers.get(4))));
 		
 		sumColors = sumColors.add(castRayRecursive(Rx/2,Ry/2,level-1,
-				pc.add(camera.getVRight().scale(Rx/4).add(camera.getVUp().scale(-Ry/4))),
+				camera.getCenterOfPixel(pc,Rx/2,Ry/2,1,1,2,2),
 				List.of(centers.get(2),centers.get(3),centers.get(4),corners.get(3))));
 		
 		return sumColors.reduce(4);
@@ -324,9 +324,17 @@ public class Render2 {
 		for (int i = threadsCount - 1; i >= 0; --i) {
 			threads[i] = new Thread(() -> {
 				Pixel pixel = new Pixel();
-				while (thePixel.nextPixel(pixel))
-					castRayRecursive(nX, nY, pixel.col, pixel.row);
+				while (thePixel.nextPixel(pixel)) {
+					//castRayRecursive(nX, nY, pixel.col, pixel.row);
 					//castRay(nX, nY, pixel.col, pixel.row);
+								
+					if(numbergrid <= 1) {
+						castRayRecursive(nX, nY, pixel.col, pixel.row);
+		                //castRay(nX, nY, pixel.col, pixel.row);
+					}
+					else 
+		            	gridPixel(nX,nY,pixel.col,pixel.row);
+				}
 			});
 		}
 		// Start threads
@@ -346,22 +354,11 @@ public class Render2 {
 		if (print)
 			System.out.print("\r100%");
 	}
-
-	
-	//nun of rays to send for improvement
-	int numbergrid = 0;
-	public void setImpovement(int n)
-	{
-		numbergrid = n;
-	}
-	
-	//depth of recursion
-	int depth = 3;
 	
 	/*
 	 * mini project 1 - calculate average of colors from one pixel by numbergrid^2 rays
 	 */
-	private Color gridPixel(int nX,int nY,int x,int y) {
+	private void gridPixel(int nX,int nY,int x,int y) {
 		Color sumColors = Color.BLACK;
 		List<Ray> rays = new LinkedList<Ray>();
 		
@@ -377,8 +374,8 @@ public class Render2 {
 		//sumColors = sumColors.add(rayTracer.traceRay(ray));
 		for(var ray : rays)
 			sumColors = sumColors.add(tracer.traceRay(ray));
-				
-		return sumColors.reduce(rays.size());
+		
+		imageWriter.writePixel(x, y, sumColors.reduce(rays.size()));
 	}
 	
 	/**
@@ -405,7 +402,7 @@ public class Render2 {
 					}
 					else 
 		            	//paint pixel
-		            	imageWriter.writePixel(j, i, gridPixel(nX,nY,j,i));
+		            	gridPixel(nX,nY,j,i);
 				}
 				System.out.printf("\r %02d%%", i);
 			}
@@ -432,4 +429,15 @@ public class Render2 {
 				if (j % step == 0 || i % step == 0)
 					imageWriter.writePixel(j, i, color);
 	}
+	
+	
+	//nun of rays to send for improvement
+	int numbergrid = 0;
+	public void setImpovement(int n)
+	{
+		numbergrid = n;
+	}
+	
+	//depth of recursion
+	int depth = 3;
 }
